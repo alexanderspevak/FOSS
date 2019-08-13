@@ -1,35 +1,77 @@
-# compose-url
+Compose url
+=================
 
-#### Replaces express URL pattern with regular URL. 
+Replaces Express URL pattern with regular URL. 
 
-## USAGE:
-const FOSS = require('FOSS');
+## Install
 
-const pattern = '/users/:id/profile/:name'
-const params = '{ id: '999', name: sklep }
+```sh
+npm install @economia/compose-url --save
+```
 
-const URL = FOSS.composeURL(pattern, params)
-// '/users/999/sklep'
+## ES6 import
 
-### Optional parameters:
+```js
+import Feed from '@economia/compose-url'
+``` 
 
-#### Optional parameters in path start end with "?" and can be omitted
+## Common js import
 
-const pattern = '/users/:id?/profile/:name'
-const params = '{ id: '999', name: sklep }
+```js
+const Feed = require('@economia/compose-url')
+```
 
-const URL = FOSS.composeURL(pattern, params)
-// '/users/999/sklep'
-
-const pattern = '/users/:id?/profile/:name'
-const params = '{ name: sklep }
-
-const URL = FOSS.composeURL(pattern, params)
-// '/users/sklep'
-
-##### in case that required parameter is not provided, resulting URL will contain non replaced pattern:
+## Example:
+```js
+import composeUrl from '@economia/compose-url';
 
 const pattern = '/users/:id/profile/:name'
-const params = '{ name: sklep }
+const params = { id: 999, name: sklep }
 
-// '/users/:id/profile/sklep'
+const URL =  composeURL(pattern, params)
+````
+
+## Result
+``js
+  '/users/999/sklep'
+``
+
+## Example:
+```js
+const pattern = '/users/:id/profile/:name'
+const params = { name: sklep }
+```
+in case that required parameter is not provided, resulting URL will contain non replaced pattern:
+## Result
+``js
+  '/users/:id/profile/sklep'
+``
+
+## Optional parameters:
+
+Optional parameters in path end with "?" and can be omitted
+
+## Example:
+```js
+const pattern = '/users/:id?/profile/:name'
+const params = { id: 999, name: 'sklep' }
+
+const URL = composeURL(pattern, params)
+```
+## Result
+``js
+  '/users/999/sklep'
+``
+## Example:
+```js
+const pattern = '/users/:id?/profile/:name'
+const params = { name: sklep }
+
+const URL = composeURL(pattern, params)
+```
+## Result
+``js
+  '/users/sklep'
+``
+
+
