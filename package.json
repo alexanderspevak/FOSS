@@ -1,32 +1,34 @@
 {
-  "name": "FOSS",
+  "name": "@economia/compose-url",
   "version": "1.0.0",
-  "description": "",
-  "main": "build/src/index.js",
+  "description": "Compose url from express url pattern",
+  "main": "build/compiled/src/index.js",
+  "contributors": [
+    "Alexander Spevak <alexander.spevak@gmail.com>",
+    "Kryštof Matějka <krystof.matejka@economia.cz>"
+  ],
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexanderspevak/FOSS.git"
+    "url": "git+https://github.com/economia/compose-url"
   },
-  "author": "",
+  "author": "sklep@economia.cz",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alexanderspevak/FOSS/issues"
+    "url": "https://github.com/economia/compose-url/issues"
   },
-  "homepage": "https://github.com/alexanderspevak/FOSS#readme",
+  "homepage": "https://github.com/economia/compose-url#readme",
+  "keywords": [
+    "compose-url",
+    "express",
+    "url",
+    "NextJS"
+  ],
   "devDependencies": {
     "@types/jest": "^23.3.14",
     "@types/node": "^12.7.1",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@typescript-eslint/parser": "^1.13.0",
-    "eslint": "^5.16.0",
-    "eslint-config-standard": "^13.0.1",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
     "jest": "^23.6.0",
     "jest-each": "^24.5.0",
     "jest-when": "^2.2.0",
