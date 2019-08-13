@@ -1,4 +1,4 @@
-# FOSS
+# compose-url
 
 #### Replaces express URL pattern with regular URL. 
 
