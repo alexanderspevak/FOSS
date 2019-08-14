@@ -8,7 +8,9 @@
     "Kryštof Matějka <krystof.matejka@economia.cz>"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "node node_modules/typescript/lib/tsc",
+    "watch": "node node_modules/typescript/lib/tsc -w"
   },
   "repository": {
     "type": "git",

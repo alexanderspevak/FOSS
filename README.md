@@ -23,61 +23,37 @@ const { composeURL } = require('@economia/compose-url')
 
 ## Example:
 ```js
-import { composeURL } from '@economia/compose-url'
-
 const pattern = '/users/:id/profile/:name'
 const params = { id: 999, name: sklep }
-
 const URL =  composeURL(pattern, params)
-````
-
-## Result
-``js
-  '/users/999/sklep'
-``
-
-## Example:
-```js
-import { composeURL } from '@economia/compose-url'
-
+ // /users/999/sklep
+ ```
+ in case that required parameter is not provided, resulting URL will contain non replaced pattern:
+ ```js
 const pattern = '/users/:id/profile/:name'
 const params = { name: sklep }
+const URL =  composeURL(pattern, params)
+ // /users/:id/profile/sklep
 ```
-in case that required parameter is not provided, resulting URL will contain non replaced pattern:
-## Result
-``js
-  '/users/:id/profile/sklep'
-``
-
-## Optional parameters:
 
 Optional parameters in path end with "?" and can be omitted
 
-## Example:
 ```js
-import { composeURL } from '@economia/compose-url'
 
 const pattern = '/users/:id?/profile/:name'
 const params = { id: 999, name: 'sklep' }
 
 const URL = composeURL(pattern, params)
+ // /users/999/sklep
 ```
-## Result
-``js
-  '/users/999/sklep'
-``
-## Example:
-```js
-import { composeURL } from '@economia/compose-url'
 
+```js
 const pattern = '/users/:id?/profile/:name'
 const params = { name: sklep }
 
 const URL = composeURL(pattern, params)
+// /users/sklep
 ```
-## Result
-``js
-  '/users/sklep'
-``
+
 
 
