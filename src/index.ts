@@ -2,7 +2,7 @@ interface IQuery {
   [key: string]: string
 }
 
-export const composeUrl = (entryPath:string, query: IQuery = {}) => {
+export const composeURL = (entryPath:string, query: IQuery = {}) => {
   const splitedPath = entryPath.split('/')
 
   const parsedSplitedPath = splitedPath.map((parameter:string): any => {
@@ -45,4 +45,4 @@ const handleMandatoryParameters =  (parameter: string, query: IQuery) => {
 }
 
 
-console.log(composeUrl('/hello/:hello?/:ahoj', {ahoj: 'tomas', hello: 'krystof'}))
+console.log(composeURL('/hello/:hello?/:ahoj', {ahoj: 'tomas', hello: 'krystof'}))
