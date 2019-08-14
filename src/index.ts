@@ -1,23 +1,48 @@
-export function composeURL (entryPath:string, query = {}): string {
-  return resolveOptionalParameters(Object.entries(query).reduce((resultPath, queryParams) => {
-    const [key, value] = queryParams
-    return resultPath.replace(':' + key, value as string)
-  }, entryPath))
+interface IQuery {
+  [key: string]: string
 }
 
-function resolveOptionalParameters (unresolvedPath:string) {
-  return unresolvedPath.split('/').reduce((path, queryParam) => {
-    const firstCharacter = queryParam.slice(0, 1)
-    const lastCharacter = queryParam.slice(-1)
+export const composeUrl = (entryPath:string, query: IQuery = {}) => {
+  const splitedPath = entryPath.split('/')
 
-    if (lastCharacter === '?' && firstCharacter === ':') {
-      return path
+  const parsedSplitedPath = splitedPath.map((parameter:string): any => {
+    const firstCharacter = parameter.slice(0, 1)
+    const lastCharacter = parameter.slice(-1)
+
+    if(firstCharacter === ''){
+      return ''
     }
 
-    if (lastCharacter === '?') {
-      return path + queryParam.slice(0, -1) + '/'
+    if(firstCharacter !==':') {
+      return `/${parameter}`
     }
 
-    return path + queryParam + '/'
-  }, '')
+    if(lastCharacter ==='?'){
+      return handleOptionalParameters(parameter, query)
+    }
+
+  return handleMandatoryParameters(parameter, query)
+  })
+
+  return parsedSplitedPath.join('')
 }
+
+const handleOptionalParameters = (parameter: string, query: IQuery) => {
+  const parameterKey = parameter.substring(1, parameter.length - 1)
+  if(query[parameterKey]) {
+    return `/${query[parameterKey]}`
+  }
+
+  return ''
+}
+
+const handleMandatoryParameters =  (parameter: string, query: IQuery) => {
+  const parameterKey = parameter.substring(1, parameter.length)
+  if(query[parameterKey]) {
+    return `/${query[parameterKey]}`
+  }
+  throw new Error('composeURL - please non optional parameters must be provided in query object parameter')
+}
+
+
+console.log(composeUrl('/hello/:hello?/:ahoj', {ahoj: 'tomas', hello: 'krystof'}))

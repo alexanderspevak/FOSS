@@ -26,7 +26,7 @@ const { composeURL } = require('@economia/compose-url')
 const pattern = '/users/:id/profile/:name'
 const params = { id: 999, name: sklep }
 const URL =  composeURL(pattern, params)
- // /users/999/sklep
+ // /users/999/profile/sklep
  ```
  in case that required parameter is not provided, resulting URL will contain non replaced pattern:
  ```js
@@ -44,7 +44,7 @@ const pattern = '/users/:id?/profile/:name'
 const params = { id: 999, name: 'sklep' }
 
 const URL = composeURL(pattern, params)
- // /users/999/sklep
+ // /users/999/profile/sklep
 ```
 
 ```js
@@ -52,7 +52,7 @@ const pattern = '/users/:id?/profile/:name'
 const params = { name: sklep }
 
 const URL = composeURL(pattern, params)
-// /users/sklep
+// /users/profile/sklep
 ```
 
 
