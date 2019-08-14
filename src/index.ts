@@ -44,5 +44,3 @@ const handleMandatoryParameters =  (parameter: string, query: IQuery) => {
   throw new Error('composeURL - please non optional parameters must be provided in query object parameter')
 }
 
-
-console.log(composeURL('/hello/:hello?/:ahoj', {ahoj: 'tomas', hello: 'krystof'}))
