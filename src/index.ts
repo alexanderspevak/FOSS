@@ -3,44 +3,35 @@ interface IQuery {
 }
 
 export const composeURL = (entryPath:string, query: IQuery = {}) => {
-  const splitedPath = entryPath.split('/')
-
-  const parsedSplitedPath = splitedPath.map((parameter:string): any => {
-    const firstCharacter = parameter.slice(0, 1)
-    const lastCharacter = parameter.slice(-1)
-
-    if(firstCharacter === ''){
-      return ''
-    }
-
-    if(firstCharacter !==':') {
-      return `/${parameter}`
-    }
-
-    if(lastCharacter ==='?'){
-      return handleOptionalParameters(parameter, query)
-    }
-
-  return handleMandatoryParameters(parameter, query)
+  const pathParts = entryPath.split('/')
+  console.log(pathParts)
+  const parsedSplitedPath = pathParts.map((parameter:string): any => {
+   return parameter ? handleParameters(parameter, query): ''
   })
 
   return parsedSplitedPath.join('')
 }
 
-const handleOptionalParameters = (parameter: string, query: IQuery) => {
-  const parameterKey = parameter.substring(1, parameter.length - 1)
-  if(query[parameterKey]) {
-    return `/${query[parameterKey]}`
-  }
+const handleParameters = (parameter: string, query: IQuery) => {
+  const firstCharacter = parameter[0]
+  const lastCharacter = parameter.slice(-1)
+  const isOptional = lastCharacter ===  '?'
 
-  return ''
+  return firstCharacter === ':' ? handleParameter(parameter, query, isOptional) : `/${parameter}`
 }
 
-const handleMandatoryParameters =  (parameter: string, query: IQuery) => {
-  const parameterKey = parameter.substring(1, parameter.length)
-  if(query[parameterKey]) {
-    return `/${query[parameterKey]}`
+const handleParameter = (parameter: string, query: IQuery, isOptional: boolean) => {
+  const extractedParameter = extractParameter(parameter, isOptional)
+  const parameterValue = query[extractedParameter]
+  if (!parameterValue && !isOptional) {
+    const errorMessage = `Non optional parameter ${extractedParameter} has not been provided in query`
+    throw new Error(errorMessage)
   }
-  throw new Error('composeURL - please non optional parameters must be provided in query object parameter')
+
+  return parameterValue ? `/${parameterValue}` : ''
+}
+
+const extractParameter = (parameter: string, isOptional: boolean) => {
+  return parameter.slice(1, isOptional ? -1 : parameter.length)
 }
 
