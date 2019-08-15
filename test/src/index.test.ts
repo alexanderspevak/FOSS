@@ -22,7 +22,7 @@ describe('check if replaceParametersInPath returns corrrect path', () => {
 
   each([[path1, resolvedPath1], [path2, resolvedPath2], [path3, resolvedPath3], [path4, resolvedPath4]])
     .test(
-      'does replaceParametersInPath function return correct path?',
+      'should replace path parts',
       (path, resolvedPath) => {
         expect(composeURL(path, query)).toBe(resolvedPath)
       }

@@ -2,36 +2,36 @@ interface IQuery {
   [key: string]: string
 }
 
-export const composeURL = (entryPath:string, query: IQuery = {}) => {
-  const pathParts = entryPath.split('/')
-  console.log(pathParts)
-  const parsedSplitedPath = pathParts.map((parameter:string): any => {
-   return parameter ? handleParameters(parameter, query): ''
+const CHARS = {
+  SLASH: '/',
+  QUESTION_MARK: '?',
+  COLON: ':'
+}
+
+export const composeURL = (entryPath: string, query: IQuery = {}) => {
+  const pathParts = entryPath.split(CHARS.SLASH)
+  const parsedPathParts = pathParts.map((part: string): any => {
+   return part ? handlePart(part, query) : ''
   })
 
-  return parsedSplitedPath.join('')
+  return parsedPathParts.join('')
 }
 
-const handleParameters = (parameter: string, query: IQuery) => {
-  const firstCharacter = parameter[0]
-  const lastCharacter = parameter.slice(-1)
-  const isOptional = lastCharacter ===  '?'
+const handlePart = (part: string, query: IQuery) => {
+  const lastCharacter = part.slice(-1)
+  const isOptional = lastCharacter === CHARS.QUESTION_MARK
 
-  return firstCharacter === ':' ? handleParameter(parameter, query, isOptional) : `/${parameter}`
+  return part[0] === CHARS.COLON ? replacePart(part, query, isOptional) : `${CHARS.SLASH}${part}`
 }
 
-const handleParameter = (parameter: string, query: IQuery, isOptional: boolean) => {
-  const extractedParameter = extractParameter(parameter, isOptional)
-  const parameterValue = query[extractedParameter]
-  if (!parameterValue && !isOptional) {
-    const errorMessage = `Non optional parameter ${extractedParameter} has not been provided in query`
-    throw new Error(errorMessage)
+const replacePart = (part: string, query: IQuery, isOptional: boolean) => {
+  const partValue = part.replace(/\W/g, '')
+  const queryValue = query[partValue]
+
+  if (!queryValue && !isOptional) {
+    const message = `Required parameter ${partValue} not provided by query`
+    throw new Error(message)
   }
 
-  return parameterValue ? `/${parameterValue}` : ''
+  return queryValue ? `${CHARS.SLASH}${queryValue}` : ''
 }
-
-const extractParameter = (parameter: string, isOptional: boolean) => {
-  return parameter.slice(1, isOptional ? -1 : parameter.length)
-}
-
