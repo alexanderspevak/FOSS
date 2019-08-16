@@ -32,7 +32,7 @@ const URL =  composeURL(pattern, params)
  ```js
 const pattern = '/users/:id/profile/:name'
 const params = { name: sklep }
-const URL =  composeURL(pattern, params)
+const URL = composeURL(pattern, params)
  // /users/:id/profile/sklep
 ```
 

@@ -1,15 +1,15 @@
 interface IQuery {
-  [key: string]: string
+  [ key: string ]: string
 }
 
-const CHARS = {
-  SLASH: '/',
-  QUESTION_MARK: '?',
-  COLON: ':'
+const SIGN = {
+  SEPARATOR: '/',
+  OPTIONAL: '?',
+  PARAMETER: ':'
 }
 
 export const composeURL = (entryPath: string, query: IQuery = {}) => {
-  const pathParts = entryPath.split(CHARS.SLASH)
+  const pathParts = entryPath.split(SIGN.SEPARATOR)
   const parsedPathParts = pathParts.map((part: string): any => {
    return part ? handlePart(part, query) : ''
   })
@@ -19,19 +19,23 @@ export const composeURL = (entryPath: string, query: IQuery = {}) => {
 
 const handlePart = (part: string, query: IQuery) => {
   const lastCharacter = part.slice(-1)
-  const isOptional = lastCharacter === CHARS.QUESTION_MARK
+  const isOptional = lastCharacter === SIGN.OPTIONAL
 
-  return part[0] === CHARS.COLON ? replacePart(part, query, isOptional) : `${CHARS.SLASH}${part}`
+  return part[0] === SIGN.PARAMETER ? replacePart(part, query, isOptional) : `${SIGN.SEPARATOR}${part}`
 }
 
 const replacePart = (part: string, query: IQuery, isOptional: boolean) => {
-  const partValue = part.replace(/\W/g, '')
-  const queryValue = query[partValue]
+  const key = extractKey(part, isOptional)
+  const value = query[key]
 
-  if (!queryValue && !isOptional) {
-    const message = `Required parameter ${partValue} not provided by query`
+  if (!value && !isOptional) {
+    const message = `Required parameter ${key} not provided by query`
     throw new Error(message)
   }
 
-  return queryValue ? `${CHARS.SLASH}${queryValue}` : ''
+  return value ? `${SIGN.SEPARATOR}${value}` : ''
+}
+
+const extractKey = (input: string, isOptional: boolean) => {
+  return input.slice(1, isOptional ? -1 : 0)
 }
