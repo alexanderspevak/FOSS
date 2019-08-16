@@ -24,7 +24,7 @@ describe('check if replaceParametersInPath returns corrrect path', () => {
     .test(
       'should replace path parts',
       (path, resolvedPath) => {
-        expect(composeURL(path, query)).toBe(resolvedPath)
+        expect(composeURL(path, query)).toEqual(resolvedPath)
       }
     )
 })

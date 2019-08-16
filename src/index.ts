@@ -27,7 +27,6 @@ const handlePart = (part: string, query: IQuery) => {
 const replacePart = (part: string, query: IQuery, isOptional: boolean) => {
   const key = extractKey(part, isOptional)
   const value = query[key]
-
   if (!value && !isOptional) {
     const message = `Required parameter ${key} not provided by query`
     throw new Error(message)
@@ -37,5 +36,6 @@ const replacePart = (part: string, query: IQuery, isOptional: boolean) => {
 }
 
 const extractKey = (input: string, isOptional: boolean) => {
-  return input.slice(1, isOptional ? -1 : 0)
+  return input.slice(1, isOptional ? -1 : input.length)
 }
+
