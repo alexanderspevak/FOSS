@@ -12,7 +12,7 @@ npm install @economia/compose-url --save
 ## ES6 import
 
 ```js
-import { composeURL }from '@economia/compose-url'
+import { composeURL } from '@economia/compose-url'
 ``` 
 
 ## Common js import
@@ -23,37 +23,35 @@ const { composeURL } = require('@economia/compose-url')
 
 ## Example:
 ```js
-const pattern = '/users/:id/profile/:name'
-const params = { id: 999, name: sklep }
+const pattern = '/users/:id'
+const params = { id: 42 }
+
 const URL =  composeURL(pattern, params)
- // /users/999/profile/sklep
- ```
- in case that required parameter is not provided, resulting URL will contain non replaced pattern:
- ```js
-const pattern = '/users/:id/profile/:name'
-const params = { name: sklep }
-const URL = composeURL(pattern, params)
- // /users/:id/profile/sklep
-```
-
-Optional parameters in path end with "?" and can be omitted
-
-```js
-
-const pattern = '/users/:id?/profile/:name'
-const params = { id: 999, name: 'sklep' }
-
-const URL = composeURL(pattern, params)
- // /users/999/profile/sklep
+// /users/42
 ```
 
 ```js
-const pattern = '/users/:id?/profile/:name'
-const params = { name: sklep }
+const pattern = '/users/:id'
+const params = {}
 
 const URL = composeURL(pattern, params)
-// /users/profile/sklep
+// error
 ```
 
+Optional parameters end with "?" and can be omitted
 
+```js
+const pattern = '/users/:id?'
+const params = { id: 42 }
 
+const URL = composeURL(pattern, params)
+// /users/42
+```
+
+```js
+const pattern = '/users/:id?'
+const params = {}
+
+const URL = composeURL(pattern, params)
+// /users
+```
